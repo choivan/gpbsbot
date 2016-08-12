@@ -34,16 +34,19 @@ bot.get_updates(fail_silently: false) do |message|
       end 
 
     when /duel/i
+      msg = command.sub('/duel', '').strip
       if duel_starter == nil 
+        msg = "WHO DARE TO FIGHT WITH ME?!" if msg.empty?
         duel_starter = message.from.first_name
-        reply.text = "#{duel_starter} roooaaarrrs, \"WHO DARE TO FIGHT WITH ME?!\""
+        reply.text = "#{duel_starter} roooaaarrrs, \"#{msg}\""
       else 
         participant = message.from.first_name
         if duel_starter == participant
           reply.text = "Hey, #{duel_starter}. You cannot duel with yourself."
         else 
           winner = rand(2) > 0? duel_starter : participant
-          reply.text = "#{participant} enters the duel with #{duel_starter}\n...\n...\nAnd the winner is #{winner}"
+          reply_text_heading = msg.empty?? "" : "\"#{msg}\", #{participant} yells.\n"
+          reply.text = reply_text_heading + "#{participant} enters the duel with #{duel_starter}\n...\n...\nAnd the winner is #{winner}"
           duel_starter = nil
         end
       end 
