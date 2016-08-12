@@ -7,6 +7,8 @@ logger = Logger.new(STDOUT, Logger::DEBUG)
 bot = TelegramBot.new(token: '240058626:AAEdQOZlM89DhlmS_FsIXSMPEANwEjqJICg', logger: logger)
 logger.debug "starting telegram bot"
 
+duel_starter = nil
+
 bot.get_updates(fail_silently: false) do |message|
   logger.info "@#{message.from.username}: #{message.text}"
   command = message.get_command_for(bot)
@@ -30,6 +32,15 @@ bot.get_updates(fail_silently: false) do |message|
       else 
         reply.text = "You got luck, #{message.from.first_name} :-p"
       end 
+
+    when /duel/i
+      if duel_starter == nil 
+        duel_starter = message.from.first_name
+        reply.text = "#{duel_starter} roooaaarrrs, \"WHO DARE TO FIGHT WITH ME?!\""
+      else 
+        participant = message.from.first_name
+        winner = if rand(2) > 0? duel_starter : participant
+        reply.text = "#{participant} enters the duel with #{duel_starter}\n...\n...\nAnd the winner is #{winner}"
       
     else
       reply.text = "#{message.from.first_name}, have no idea what #{command.inspect} means."
