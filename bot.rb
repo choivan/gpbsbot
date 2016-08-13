@@ -25,12 +25,14 @@ bot.get_updates(fail_silently: false) do |message|
       logger.info "range is #{range}"
       reply.text = "#{message.from.first_name}, you got #{rand(range)}"
 
-    when /dove/i
+    when /doved/i
       doved = rand(2) > 0
+      name = command.sub('/doved', '').strip
+      name = message.from.first_name if name.empty?
       if doved 
-        reply.text = "Yes! #{message.from.first_name}! You ARE D-O-V-E-D!"
+        reply.text = "Yes! #{name}! You ARE D-O-V-E-D!"
       else 
-        reply.text = "You got luck, #{message.from.first_name} :-p"
+        reply.text = "You got luck, #{name} :-p"
       end 
 
     when /duel/i
