@@ -16,7 +16,18 @@ bot.get_updates(fail_silently: false) do |message|
 
   message.reply do |reply|
     if ban_list.include? message.from.first_name
-      reply.text = "Sorry, #{message.from.first_name}. But you are BANNED!"
+      case command
+      when /unbanme/i
+        should_unban = rand(2) > 0
+        if should_unban
+          ban_list.delete message.from.first_name
+          reply.text = "OK.. OK. #{message.from.first_name}"
+        else
+          reply.text = "Sorry, #{message.from.first_name}. But you are BANNED!"
+        end
+      else
+        reply.text = "Sorry, #{message.from.first_name}. But you are BANNED!"
+      end
     else
       case command
       when /roll/i
