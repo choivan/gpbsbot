@@ -87,6 +87,13 @@ bot.get_updates(fail_silently: false) do |message|
           reply.text = "Ha? #{name}?"
         end
 
+      when /flush/i
+        msg = command.sub('/duel', '').strip
+        msg.each_char do |c| 
+          reply.text = c 
+          reply.send_with(bot)
+        end
+
       else
         reply.text = "#{message.from.first_name}, have no idea what #{command.inspect} means."
       end
