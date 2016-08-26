@@ -88,7 +88,7 @@ bot.get_updates(fail_silently: false) do |message|
         end
 
       when /flush/i
-        msg = command.sub('/duel', '').strip
+        msg = command.sub('/flush', '').strip
         msg.each_char do |c| 
           reply.text = c 
           reply.send_with(bot)
