@@ -93,7 +93,7 @@ bot.get_updates(fail_silently: false) do |message|
           reply.text = c 
           reply.send_with(bot)
         end
-        return 
+        reply.text = "!"
 
       else
         reply.text = "#{message.from.first_name}, have no idea what #{command.inspect} means."
