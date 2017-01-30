@@ -15,6 +15,7 @@ bot.get_updates(fail_silently: false) do |message|
   command = message.get_command_for(bot)
 
   message.reply do |reply|
+    should_reply = true
     if ban_list.include? message.from.first_name
       case command
       when /unbanme/i
@@ -96,11 +97,12 @@ bot.get_updates(fail_silently: false) do |message|
         reply.text = "!"
 
       else
-        reply.text = "#{message.from.first_name}, have no idea what #{command.inspect} means."
+        should_reply = false
+        # reply.text = "#{message.from.first_name}, have no idea what #{command.inspect} means."
       end
     end
     logger.info "sending #{reply.text.inspect} to @#{message.from.username}"
-    reply.send_with(bot)
+    reply.send_with(bot) if should_reply
   end
 end
 
